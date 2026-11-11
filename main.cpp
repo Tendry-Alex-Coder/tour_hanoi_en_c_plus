@@ -65,7 +65,7 @@ void moveDisk(vector<int>* bar1, vector<int>* bar2, vector<int>* bar3, char next
         if (nextMove[2] == '2') {
             int firstZero = findmostRecentZero(bar2[0]);
             cout << "INDEX FOUND: " << firstZero << endl;
-            bar2[0].insert(bar2[0].begin() + firstZero - 1, topVector);
+            bar2[0].insert(bar2[0].begin() + firstZero, topVector);
         }
     }
 }
