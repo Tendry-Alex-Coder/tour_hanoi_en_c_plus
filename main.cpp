@@ -37,8 +37,8 @@ int main()
             }
         }
     }
-    catch (exception &e) {
-        cout << " ERREUR ";
+    catch (const char* mess) {
+        cout << " ERREUR " << mess;
     }
 
     return 0;
