@@ -6,6 +6,7 @@
 using namespace std;
 
 int findmostRecentZero(vector<int>);
+int findmostLastInValue(vector<int>);
 void moveDisk(vector<int>*, vector<int>*, vector<int>*, char[3]);
 void renderGame(vector<int>, vector<int>, vector<int>, int);
 
@@ -58,16 +59,30 @@ int findmostRecentZero(vector<int> vect) {
     return -1;
 }
 
+int findmostLastInValue(vector<int> vect) {
+    if (vect.back() > 0) return vect.size() - 1;
+
+    int indexMax = vect.size() - 1;
+    for (int i = vect.size() - 1; i >= 0; i--) {
+        if (vect[i] > vect[indexMax]) {
+            indexMax = i;
+        };
+    }
+    return indexMax;
+}
+
 void moveDisk(vector<int>* bar1, vector<int>* bar2, vector<int>* bar3, char nextMove[3]) {
     if (nextMove[0] == '1') {
         cout << "TEST 1" << endl;
-        int topVector = bar1[0].at(bar1[0].size() - 1);
+        //int topVector = bar1[0].at(bar1[0].size() - 1); // TO CORRECT
+        int topVector = findmostLastInValue(bar1[0]);
+        int topValueVector = bar1[0][topVector];
+        cout << "TOP: " << topValueVector;
         if (nextMove[2] == '2') {
             int firstZero = findmostRecentZero(bar2[0]);
             cout << "INDEX FOUND: " << firstZero << endl;
-            bar2[0].insert(bar2[0].begin() + firstZero, topVector);
-            bar1[0].pop_back();
-            bar1[0].push_back(0);
+            bar2[0].insert(bar2[0].begin() + firstZero, topValueVector);
+            bar1[0][topVector] = 0;
         }
     }
 }
