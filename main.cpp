@@ -64,9 +64,10 @@ int findmostLastInValue(vector<int> vect) {
 
     int indexMax = vect.size() - 1;
     for (int i = vect.size() - 1; i >= 0; i--) {
-        if (vect[i] > vect[indexMax]) {
-            indexMax = i;
+        if (vect[i] > 0) {
+            return i;
         };
+        indexMax = i;
     }
     return indexMax;
 }
@@ -74,7 +75,6 @@ int findmostLastInValue(vector<int> vect) {
 void moveDisk(vector<int>* bar1, vector<int>* bar2, vector<int>* bar3, char nextMove[3]) {
     // MOVE FROM BAR 1
     if (nextMove[0] == '1') {
-        cout << "TEST 1" << endl;
         int topVector = findmostLastInValue(bar1[0]);
         int topValueVector = bar1[0][topVector];
         cout << "TOP: " << topValueVector;
@@ -91,19 +91,34 @@ void moveDisk(vector<int>* bar1, vector<int>* bar2, vector<int>* bar3, char next
     }
     // MOVE FROM BAR 2
     if (nextMove[0] == '2') {
-        cout << "TEST 1" << endl;
-        int topVector = findmostLastInValue(bar1[0]);
-        int topValueVector = bar1[0][topVector];
+        int topVector = findmostLastInValue(bar2[0]);
+        int topValueVector = bar2[0][topVector];
         cout << "TOP: " << topValueVector;
         if (nextMove[2] == '1') {
-            int firstZero = findmostRecentZero(bar2[0]);
-            bar2[0].insert(bar2[0].begin() + firstZero, topValueVector);
-            bar1[0][topVector] = 0;
+            int firstZero = findmostRecentZero(bar1[0]);
+            bar1[0].insert(bar1[0].begin() + firstZero, topValueVector);
+            bar2[0][topVector] = 0;
         }
         if (nextMove[2] == '3') {
             int firstZero = findmostRecentZero(bar3[0]);
             bar3[0].insert(bar3[0].begin() + firstZero, topValueVector);
-            bar1[0][topVector] = 0;
+            bar2[0][topVector] = 0;
+        }
+    }
+    // MOVE FROM BAR 3
+    if (nextMove[0] == '3') {
+        int topVector = findmostLastInValue(bar3[0]);
+        int topValueVector = bar3[0][topVector];
+        cout << "TOP: " << topValueVector;
+        if (nextMove[2] == '1') {
+            int firstZero = findmostRecentZero(bar1[0]);
+            bar1[0].insert(bar1[0].begin() + firstZero, topValueVector);
+            bar3[0][topVector] = 0;
+        }
+        if (nextMove[2] == '2') {
+            int firstZero = findmostRecentZero(bar2[0]);
+            bar2[0].insert(bar2[0].begin() + firstZero, topValueVector);
+            bar3[0][topVector] = 0;
         }
     }
 }
