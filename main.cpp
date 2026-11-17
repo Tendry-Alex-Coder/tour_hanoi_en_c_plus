@@ -5,6 +5,9 @@
 
 using namespace std;
 
+int sizeBar = 5;
+
+bool checkBarAligned(vector<int>);
 int findmostRecentZero(vector<int>);
 int findmostLastInValue(vector<int>);
 void moveDisk(vector<int>*, vector<int>*, vector<int>*, char[3]);
@@ -13,8 +16,6 @@ void renderGame(vector<int>, vector<int>, vector<int>, int);
 int main()
 {
     cout << "Hello world!" << endl;
-
-    int sizeBar = 5;
 
     vector<int> bar1;
     vector<int> bar2;
@@ -38,6 +39,11 @@ int main()
             cout << "Your next move: (" << nextMove << ") " << endl;
             // Play action
             moveDisk(&bar1, &bar2, &bar3, nextMove);
+            // Check if win on bar 2 and 3
+            if (checkBarAligned(bar2) || checkBarAligned(bar3)) {
+                cout << "GAME FINISHED ! YOU WON" << endl;
+                break;
+            }
             // Check if you wanna stop the game
             if (nextMove[0] == 'x') {
                 cout << endl << " -- GAME TERMINATED --" << endl;
@@ -50,6 +56,15 @@ int main()
     }
 
     return 0;
+}
+
+// Inspiration from TRI algorithm
+bool checkBarAligned(vector<int> vect) {
+    bool result = true;
+    for (int i = 0; i < vect.size(); i++) {
+        if (vect[0] < vect[i] || vect[i] == '0' || vect[i] == 0) return false;
+    }
+    return result;
 }
 
 int findmostRecentZero(vector<int> vect) {
@@ -77,39 +92,40 @@ void moveDisk(vector<int>* bar1, vector<int>* bar2, vector<int>* bar3, char next
     if (nextMove[0] == '1') {
         int topVector = findmostLastInValue(bar1[0]);
         int topValueVector = bar1[0][topVector];
-        cout << "TOP: " << topValueVector;
         if (nextMove[2] == '2') {
             int firstZero = findmostRecentZero(bar2[0]);
             bar2[0].insert(bar2[0].begin() + firstZero, topValueVector);
             bar1[0][topVector] = 0;
+            bar2[0].pop_back();
         }
         if (nextMove[2] == '3') {
             int firstZero = findmostRecentZero(bar3[0]);
             bar3[0].insert(bar3[0].begin() + firstZero, topValueVector);
             bar1[0][topVector] = 0;
+            bar3[0].pop_back();
         }
     }
     // MOVE FROM BAR 2
     if (nextMove[0] == '2') {
         int topVector = findmostLastInValue(bar2[0]);
         int topValueVector = bar2[0][topVector];
-        cout << "TOP: " << topValueVector;
         if (nextMove[2] == '1') {
             int firstZero = findmostRecentZero(bar1[0]);
             bar1[0].insert(bar1[0].begin() + firstZero, topValueVector);
             bar2[0][topVector] = 0;
+            bar1[0].pop_back();
         }
         if (nextMove[2] == '3') {
             int firstZero = findmostRecentZero(bar3[0]);
             bar3[0].insert(bar3[0].begin() + firstZero, topValueVector);
             bar2[0][topVector] = 0;
+            bar3[0].pop_back();
         }
     }
     // MOVE FROM BAR 3
     if (nextMove[0] == '3') {
         int topVector = findmostLastInValue(bar3[0]);
         int topValueVector = bar3[0][topVector];
-        cout << "TOP: " << topValueVector;
         if (nextMove[2] == '1') {
             int firstZero = findmostRecentZero(bar1[0]);
             bar1[0].insert(bar1[0].begin() + firstZero, topValueVector);
