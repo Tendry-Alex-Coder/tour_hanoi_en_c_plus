@@ -21,7 +21,7 @@ int main()
     vector<int> bar3;
 
     /* INIT bars*/
-    for (int i = 1; i < sizeBar + 1; i++){
+    for (int i = sizeBar; i > 0; i--){
         bar1.push_back(i);
         bar2.push_back(0);
         bar3.push_back(0);
@@ -72,16 +72,37 @@ int findmostLastInValue(vector<int> vect) {
 }
 
 void moveDisk(vector<int>* bar1, vector<int>* bar2, vector<int>* bar3, char nextMove[3]) {
+    // MOVE FROM BAR 1
     if (nextMove[0] == '1') {
         cout << "TEST 1" << endl;
-        //int topVector = bar1[0].at(bar1[0].size() - 1); // TO CORRECT
         int topVector = findmostLastInValue(bar1[0]);
         int topValueVector = bar1[0][topVector];
         cout << "TOP: " << topValueVector;
         if (nextMove[2] == '2') {
             int firstZero = findmostRecentZero(bar2[0]);
-            cout << "INDEX FOUND: " << firstZero << endl;
             bar2[0].insert(bar2[0].begin() + firstZero, topValueVector);
+            bar1[0][topVector] = 0;
+        }
+        if (nextMove[2] == '3') {
+            int firstZero = findmostRecentZero(bar3[0]);
+            bar3[0].insert(bar3[0].begin() + firstZero, topValueVector);
+            bar1[0][topVector] = 0;
+        }
+    }
+    // MOVE FROM BAR 2
+    if (nextMove[0] == '2') {
+        cout << "TEST 1" << endl;
+        int topVector = findmostLastInValue(bar1[0]);
+        int topValueVector = bar1[0][topVector];
+        cout << "TOP: " << topValueVector;
+        if (nextMove[2] == '1') {
+            int firstZero = findmostRecentZero(bar2[0]);
+            bar2[0].insert(bar2[0].begin() + firstZero, topValueVector);
+            bar1[0][topVector] = 0;
+        }
+        if (nextMove[2] == '3') {
+            int firstZero = findmostRecentZero(bar3[0]);
+            bar3[0].insert(bar3[0].begin() + firstZero, topValueVector);
             bar1[0][topVector] = 0;
         }
     }
