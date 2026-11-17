@@ -20,7 +20,7 @@ int main()
     vector<int> bar3;
 
     /* INIT bars*/
-    for (int i = sizeBar; i > 0; i--){
+    for (int i = 1; i < sizeBar + 1; i++){
         bar1.push_back(i);
         bar2.push_back(0);
         bar3.push_back(0);
@@ -66,6 +66,8 @@ void moveDisk(vector<int>* bar1, vector<int>* bar2, vector<int>* bar3, char next
             int firstZero = findmostRecentZero(bar2[0]);
             cout << "INDEX FOUND: " << firstZero << endl;
             bar2[0].insert(bar2[0].begin() + firstZero, topVector);
+            bar1[0].pop_back();
+            bar1[0].push_back(0);
         }
     }
 }
@@ -73,7 +75,7 @@ void moveDisk(vector<int>* bar1, vector<int>* bar2, vector<int>* bar3, char next
 void renderGame(vector<int> bar1, vector<int> bar2, vector<int> bar3, int barSize) {
     cout << "Welcome to The Game: \"Tour d'Hanoi\" " << endl;
 
-    for(int i = 0; i < barSize; i++) {
+    for(int i = barSize - 1; i >= 0; i--) {
         cout << " || " << bar1[i] << " || " << bar2[i] << " || " << bar3[i] << " || " << endl;
     }
 }
