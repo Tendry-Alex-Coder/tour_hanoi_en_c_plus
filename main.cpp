@@ -26,7 +26,7 @@ int main()
         bar3.push_back(0);
     }
 
-    char nextMove[3];
+    char nextMove[4];
     try {
         while (true) {
             // Render game first
