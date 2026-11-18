@@ -7,6 +7,7 @@ using namespace std;
 
 int sizeBar = 5; // Nombre de disques
 
+bool isMoveCorrect(vector<int>, int);
 bool checkBarAligned(vector<int>);
 int findmostRecentZero(vector<int>);
 int findmostLastInValue(vector<int>);
@@ -58,6 +59,19 @@ int main()
     return 0;
 }
 
+bool isMoveCorrect(vector<int> vect, int disk) {
+    int indexRecentZero = findmostRecentZero(vect);
+    if (vect.front() == 0) { return true; }
+    if (indexRecentZero > 0) {
+        if (vect[indexRecentZero - 1] < disk) {
+            cout << " INCORRECT MOVE: CANNOT PUT LARGER DISK ON SMALLER ONES" << endl;
+            return false;
+        };
+    }
+
+    return true;
+}
+
 // Inspiration from TRI algorithm
 bool checkBarAligned(vector<int> vect) {
     bool result = true;
@@ -93,11 +107,13 @@ void moveDisk(vector<int>* bar1, vector<int>* bar2, vector<int>* bar3, char next
         int topVector = findmostLastInValue(bar1[0]);
         int topValueVector = bar1[0][topVector];
         if (nextMove[2] == '2') {
+            if (!isMoveCorrect(bar2[0], topValueVector)) return;
             int firstZero = findmostRecentZero(bar2[0]);
             bar2[0][firstZero] = topValueVector;
             bar1[0][topVector] = 0;
         }
         if (nextMove[2] == '3') {
+            if (!isMoveCorrect(bar3[0], topValueVector)) return;
             int firstZero = findmostRecentZero(bar3[0]);
             bar3[0][firstZero] = topValueVector;
             bar1[0][topVector] = 0;
@@ -108,11 +124,13 @@ void moveDisk(vector<int>* bar1, vector<int>* bar2, vector<int>* bar3, char next
         int topVector = findmostLastInValue(bar2[0]);
         int topValueVector = bar2[0][topVector];
         if (nextMove[2] == '1') {
+            if (!isMoveCorrect(bar1[0], topValueVector)) return;
             int firstZero = findmostRecentZero(bar1[0]);
             bar1[0][firstZero] = topValueVector;
             bar2[0][topVector] = 0;
         }
         if (nextMove[2] == '3') {
+            if (!isMoveCorrect(bar3[0], topValueVector)) return;
             int firstZero = findmostRecentZero(bar3[0]);
             bar3[0][firstZero] = topValueVector;
             bar2[0][topVector] = 0;
@@ -123,11 +141,13 @@ void moveDisk(vector<int>* bar1, vector<int>* bar2, vector<int>* bar3, char next
         int topVector = findmostLastInValue(bar3[0]);
         int topValueVector = bar3[0][topVector];
         if (nextMove[2] == '1') {
+            if (!isMoveCorrect(bar1[0], topValueVector)) return;
             int firstZero = findmostRecentZero(bar1[0]);
             bar1[0][firstZero] = topValueVector;
             bar3[0][topVector] = 0;
         }
         if (nextMove[2] == '2') {
+            if (!isMoveCorrect(bar2[0], topValueVector)) return;
             int firstZero = findmostRecentZero(bar2[0]);
             bar2[0][firstZero] = topValueVector;
             bar3[0][topVector] = 0;
