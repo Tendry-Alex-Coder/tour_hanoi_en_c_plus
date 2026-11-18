@@ -5,7 +5,7 @@
 
 using namespace std;
 
-int sizeBar = 5;
+int sizeBar = 5; // Nombre de disques
 
 bool checkBarAligned(vector<int>);
 int findmostRecentZero(vector<int>);
@@ -33,17 +33,17 @@ int main()
         while (true) {
             // Render game first
             renderGame(bar1, bar2, bar3, sizeBar);
+            // Check if win on bar 2 and 3
+            if (checkBarAligned(bar2) || checkBarAligned(bar3)) {
+                cout << "GAME FINISHED ! YOU WON" << endl;
+                break;
+            }
             // Then ask for action
             cout << "What is you next move ? " << endl;
             cin >> nextMove;
             cout << "Your next move: (" << nextMove << ") " << endl;
             // Play action
             moveDisk(&bar1, &bar2, &bar3, nextMove);
-            // Check if win on bar 2 and 3
-            if (checkBarAligned(bar2) || checkBarAligned(bar3)) {
-                cout << "GAME FINISHED ! YOU WON" << endl;
-                break;
-            }
             // Check if you wanna stop the game
             if (nextMove[0] == 'x') {
                 cout << endl << " -- GAME TERMINATED --" << endl;
@@ -94,15 +94,13 @@ void moveDisk(vector<int>* bar1, vector<int>* bar2, vector<int>* bar3, char next
         int topValueVector = bar1[0][topVector];
         if (nextMove[2] == '2') {
             int firstZero = findmostRecentZero(bar2[0]);
-            bar2[0].insert(bar2[0].begin() + firstZero, topValueVector);
+            bar2[0][firstZero] = topValueVector;
             bar1[0][topVector] = 0;
-            bar2[0].pop_back();
         }
         if (nextMove[2] == '3') {
             int firstZero = findmostRecentZero(bar3[0]);
-            bar3[0].insert(bar3[0].begin() + firstZero, topValueVector);
+            bar3[0][firstZero] = topValueVector;
             bar1[0][topVector] = 0;
-            bar3[0].pop_back();
         }
     }
     // MOVE FROM BAR 2
@@ -111,15 +109,13 @@ void moveDisk(vector<int>* bar1, vector<int>* bar2, vector<int>* bar3, char next
         int topValueVector = bar2[0][topVector];
         if (nextMove[2] == '1') {
             int firstZero = findmostRecentZero(bar1[0]);
-            bar1[0].insert(bar1[0].begin() + firstZero, topValueVector);
+            bar1[0][firstZero] = topValueVector;
             bar2[0][topVector] = 0;
-            bar1[0].pop_back();
         }
         if (nextMove[2] == '3') {
             int firstZero = findmostRecentZero(bar3[0]);
-            bar3[0].insert(bar3[0].begin() + firstZero, topValueVector);
+            bar3[0][firstZero] = topValueVector;
             bar2[0][topVector] = 0;
-            bar3[0].pop_back();
         }
     }
     // MOVE FROM BAR 3
@@ -128,12 +124,12 @@ void moveDisk(vector<int>* bar1, vector<int>* bar2, vector<int>* bar3, char next
         int topValueVector = bar3[0][topVector];
         if (nextMove[2] == '1') {
             int firstZero = findmostRecentZero(bar1[0]);
-            bar1[0].insert(bar1[0].begin() + firstZero, topValueVector);
+            bar1[0][firstZero] = topValueVector;
             bar3[0][topVector] = 0;
         }
         if (nextMove[2] == '2') {
             int firstZero = findmostRecentZero(bar2[0]);
-            bar2[0].insert(bar2[0].begin() + firstZero, topValueVector);
+            bar2[0][firstZero] = topValueVector;
             bar3[0][topVector] = 0;
         }
     }
